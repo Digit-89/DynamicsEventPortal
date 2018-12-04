@@ -1,0 +1,24 @@
+﻿#all-events-panel {
+    margin-top: 50px;
+}
+
+.panel {
+    margin-bottom: 21px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+#all-events-panel .table {
+    margin-bottom: 0;
+}
+
+.spinner-container {
+    min-height: 1000px;
+    padding-top: 450px;
+}
+
+.page-header {
+    padding-top: 30px;
+    margin: 42px 0 21px;
+}

@@ -1,0 +1,25 @@
+<div class="event-sponsors-container">
+    <div class="page-header">
+        <h3 [appTranslate]="'BroughtToYouBy'">Brought to you by</h3>
+    </div>
+    
+    <p *ngIf="sponsorships && sponsorships.length == 0" [appTranslate]="'NoSponsorshipsEvent'">No sponsorships are associated to this event.</p>
+
+    <div class="container" *ngIf="sponsorships && sponsorships.length > 0">
+        <div class="row">
+            <div class="col-md-2 col-sm-2" *ngFor="let sponsor of sponsorships">
+                <div class="sponsor-image-container">
+                    <div class="sponsor-image">
+                        <img src="{{ imageHelper.getImage(sponsor.image, defaultImageUrl) }}" />
+                    </div>
+                    <div *ngIf="sponsor.sponsorName !== null" class="sponsor-name">{{ sponsor.sponsorName }}</div>
+                    <div *ngIf="sponsor.sponsorName === null" class="sponsor-name" [appTranslate]="'SponsorName'">Sponsor Name</div>
+                    <div class="sponsor-title">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

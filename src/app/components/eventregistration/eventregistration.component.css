@@ -1,0 +1,103 @@
+.checkout-container {
+    padding-top: 2em;
+    float: right;
+}
+
+.page-header {
+    padding-top: 30px;
+    margin: 42px 0 21px;
+}
+
+.waitlist-container {
+    padding-bottom: 2em;
+}
+
+h4 {
+    margin-top: 50px;
+}
+
+.registrants-table {
+    margin-top:20px;
+    padding: 0;
+}
+
+.col-header {
+    padding: 10px;
+    border: 1px solid #D8D8D8;
+    border-bottom: 3px solid #D8D8D8;
+    font-weight: bold;
+    color: #808080;
+}
+
+.col-header:nth-child(2n+1) {
+    border-left: none;
+}
+
+.col-header:nth-child(2n) {
+    border-left: none;
+}
+
+.col-header:last-child {
+    border-right: none;
+}
+
+.alternate-row:nth-child(2n+1) {
+    background-color: #fff;
+}
+
+.alternate-row:nth-child(2n) {
+    background-color: #fbfbfb;
+}
+
+.alternate-row:first-child {
+    background-color: #f1f1f1;
+}
+
+.registrants-table-container {
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+}
+
+.registrants-table-header {
+    display: block;
+    font-size: 1.4em;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 20px;
+    color: #556;
+}
+
+.alternate-row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.spinner-container {
+    min-height: 1000px;
+    padding-top: 450px;
+}
+
+.event-customregistrationsfields-container {
+    padding: 2em 0;
+}
+
+.field-container {
+    padding: 1em 0;
+}
+
+.field-container p {
+    margin-bottom: 0;
+}
+
+.checkboxes-container {
+    padding-left: 1em;
+}
+
+.required::after {
+    content: ' *';
+    color: red;
+}
+
+.notVisible {
+    display: none;
+}

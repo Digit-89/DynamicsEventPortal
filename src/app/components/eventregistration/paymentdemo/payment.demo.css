@@ -1,0 +1,38 @@
+.checkout-container {
+    padding-top: 2em;
+    float: right;
+}
+
+.page-header {
+    padding-top: 30px;
+    margin: 42px 0 21px;
+}    
+button:focus.electricblue, button:hover.electricblue {
+    background: #2447b3;
+}
+
+.makePayment {
+    background: #459fff;
+}
+
+.payment-section {
+    max-width: 50rem;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.payment-actions div {
+    display: block;
+    width: 100%;
+ }
+
+.payment-actions div:nth-child(2) {
+    text-align: right;
+}
+
+.payment-actions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px #eee solid;
+    display: flex;
+}

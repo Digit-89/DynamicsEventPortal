@@ -1,0 +1,55 @@
+.speaker-image {
+    height: 150px;
+    width: 150px;
+}
+
+.page-header {
+    padding-top: 30px;
+    margin: 42px 0 21px;
+}
+
+.speaker-container {
+    padding-top: 3em;
+    position: relative;
+}
+
+.speaker-container .speaker-image img {
+    border-radius: 50%;
+}
+
+.speaker-image:hover {
+    background-color: #2196F3;
+}
+
+.speaker-image img {
+    height: 95%;
+}
+
+.speaker-name {
+    margin-top: .6em;
+}
+
+.event-speakers-container {
+    text-align: center;
+}
+
+.event-speakers-container h3 {
+    padding-bottom: 30px;
+}
+
+.speaker-title {
+    margin-bottom: 1em;
+}
+
+.speaker-links div a picture img{
+    height: 50px;
+    width: 50px;
+}
+
+.speaker-linkedin {
+    display: inline;
+}
+
+.speaker-twitter {
+    display: inline;
+}

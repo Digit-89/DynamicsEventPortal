@@ -1,0 +1,58 @@
+<div class="spinner-container" *ngIf="!event">
+    <app-spinner></app-spinner>
+</div>
+<div class="container event-banner" [ngStyle]="{ 'background': 'no-repeat center url(' + getBannerImage() + ')', 'background-size': 'cover' }" *ngIf="event">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="section-landing-heading">{{ event.eventName }}</h1>
+            <h3 class="event-date">{{ event.startDate | date:'medium' }}</h3>
+            <h3 class="event-location">{{ event.building ? event.building.name : '' }}</h3>
+        </div>
+    </div>
+    <div class="row register-container">
+        <button [routerLink]="['registration']" [queryParams]="{id: event.readableEventId}" class="btn btn-primary btn-lg">
+            <span class='fa fa-calendar'></span> <span class="icon-padding" [appTranslate]="'RegisterNow'">Register Now</span>
+        </button>
+    </div>
+</div>
+
+<div class="container event-data-container" *ngIf="event">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#sessionsContent" [appTranslate]="'Sessions'">Sessions</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#sessionTracksContent" [appTranslate]="'SessionTracks'">Session Tracks</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#speakersContent" [appTranslate]="'Speakers'">Speakers</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#passesContent" [appTranslate]="'PassInformation'">Pass Information</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="sessionsContent">
+            <app-sessions [readableEventId]="readableEventId"></app-sessions>
+        </div>
+
+        <div class="tab-pane" id="sessionTracksContent">
+            <app-sessiontracks [readableEventId]="readableEventId"></app-sessiontracks>
+        </div>
+
+        <div class="tab-pane" id="speakersContent">
+            <app-speakers [readableEventId]="readableEventId"></app-speakers>
+        </div>
+
+        <div class="tab-pane" id="passesContent">
+            <app-passes [readableEventId]="readableEventId"></app-passes>
+        </div>
+    </div>
+</div>
+
+
+<app-sponsors [readableEventId]="readableEventId"></app-sponsors>

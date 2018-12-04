@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="page-header">
+        <h3 [appTranslate]="'SessionTracks'">Session Tracks</h3>
+    </div>
+</div>
+
+<p *ngIf="sessionTracks && sessionTracks.length == 0" [appTranslate]="'NoSessionTracksEvent'">No session tracks are associated to this event.</p>
+
+<div class="container" *ngIf="sessionTracks && sessionTracks.length > 0">
+    <div id="accordion">
+        <div class="card" *ngFor="let track of sessionTracks; let i = index;">
+            <div class="card-header" [attr.id]="'heading' + i">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="true" [attr.aria-controls]="'collapse' + i">
+                        {{ track.name }}
+                    </button>
+                </h5>
+            </div>
+
+            <div [attr.id]="'collapse' + i" class="collapse" [attr.aria-labelledby]="'heading' + i" data-parent="#accordion">
+                <div class="card-body">
+                    <app-listofsessionspertrack [trackId]="track.id"></app-listofsessionspertrack>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

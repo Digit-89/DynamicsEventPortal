@@ -1,0 +1,38 @@
+<div class="spinner-container" *ngIf="!allEvents">
+    <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="allEvents">
+    <div class="container">
+        <div class="page-header">
+            <h3 [appTranslate]="'Home'">Home</h3>
+        </div>
+        <div class="">
+            <p [appTranslate]="'Intro1'">This portal uses sample data for illustration purposes. An event must be configured in your portal site settings via the "Event/Event Name" site setting for event information to be visible on the portal.</p>
+            <p [appTranslate]="'Intro2'">The event portal is a portal that provides you with content, templates, and infrastructure to help you get started and build a functional portal for your organization quickly and efficiently. This portal makes use of Microsoft Dynamics 365 services to reliably host your content.</p>
+        </div>
+    </div>
+    <div class="container">
+
+        <div id="all-events-panel" class="panel panel-default">
+            <table class="table table-striped table-hover table-light">
+                <thead class="thead-light">
+                    <tr>
+                        <th [appTranslate]="'EventName'">Event Name</th>
+                        <th [appTranslate]="'StartDate'">Start Date</th>
+                        <th [appTranslate]="'EndDate'">End Date</th>
+                        <th [appTranslate]="'Building'">Building</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable-row" attr.data-href="/event?id={{ event.readableEventId }}" *ngFor="let event of allEvents">
+                        <td><a [routerLink]="['/event']" [queryParams]="{id: event.readableEventId}" title="{{ event.eventName }}">{{ event.eventName }}</a></td>
+                        <td>{{ event.startDate | date:'medium' }}</td>
+                        <td>{{ event.endDate | date:'medium' }}</td>
+                        <td>{{ event.building ? event.building.name : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

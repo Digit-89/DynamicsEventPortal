@@ -1,0 +1,37 @@
+<div class='container'>
+    <div class="container" *ngIf="errorMessage">
+        <app-errormessage [translatedErrorMessage]="'RegistrationFailed'" [serverErrorMessage]="errorMessage"></app-errormessage>
+    </div>
+    <div class='payment-section'>
+        <div class='page-heading'>
+            <div class='page-header'>
+                <h1><span [appTranslate]="'DemoPaymentGatewayPageTitle'">Demo Payment Gateway</span></h1>
+            </div>
+        </div>
+        <h5 [appTranslate]="'OrderSummary'">Order Summary</h5>
+        <b [appTranslate]="'Description'">Description:</b> Event pass<br>
+        <b [appTranslate]="'Amount'">Amount:</b> {{ currencySymbol }}{{ total }}
+        <h5 [appTranslate]="'PaymentDetails'">Payment details</h5>
+        <div class='payment-details-section'>
+            <div>
+                <b [appTranslate]="'CardNumber'">Card number:</b> xxxx-xxxx-xxxx-xxxx
+            </div>
+            <div>
+                <b [appTranslate]="'CardHolder'">Card holder:</b> Name &amp; Last Name
+            </div>
+        </div>
+        <div class='payment-actions'>
+            <div>
+                <button (click)="cancel()" class='btn electricblue cancelPayment'>                        
+                    <span [appTranslate]="'CancelPayment'">Cancel Payment</span>
+                </button>
+            </div>
+            <div>
+                <button (click)="finalizePurchase()" class='btn electricblue makePayment'>                        
+                    <span *ngIf="!registrationInProgress" [appTranslate]="'EmulatePayment'"><span class="fa fa-shopping-cart"></span>Emulate Payment</span>
+                    <span *ngIf="registrationInProgress" [appTranslate]="'Processing'"><span class="fa fa-spinner fa-spin"></span>Processing</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

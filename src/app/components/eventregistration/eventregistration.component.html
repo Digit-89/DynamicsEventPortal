@@ -1,0 +1,101 @@
+<div class="spinner-container" *ngIf="!dataLoaded()">
+    <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="dataLoaded()">
+    <div class="container">
+        <div class="page-header">
+            <h1 [appTranslate]="'Registration'">Registration</h1>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="errorMessage">        
+        <app-errormessage [translatedErrorMessage]="'RegistrationFailed'" [serverErrorMessage]="errorMessage"></app-errormessage>
+    </div>
+
+    <div class="container">
+        <div class="waitlist-container" *ngIf="showWaitlist()">
+            <br />
+            <div class="alert alert-warning" [appTranslate]="'MaximumCapacityReached'">The event's maximum capacity has been reached. You can only add attendants to the waitlist.</div>
+
+            <div class="registrants-table-container">
+                <span class="registrants-table-header" [appTranslate]="'Waitlist'">Waitlist</span>
+                <div class="container-fluid registrants-table">
+                    <div class="row alternate-row">
+                        <div class="col col-header" *ngIf="isJapanese" [appTranslate]="'LastName'">Last Name</div>
+                        <div class="col col-header" [appTranslate]="'FirstName'">First Name</div>
+                        <div class="col col-header" *ngIf="!isJapanese" [appTranslate]="'LastName'">Last Name</div>
+                        <div class="col col-header" [appTranslate]="'Email'">Email</div>
+                        <div class="col-1 col-header" *ngIf="!paidEvent() && !autoregisterWaitlistItems() && showAutomaticRegistrationCheckbox()" [appTranslate]="'AutoRegister'">Auto Register</div>
+                        <div class="col-1 col-header">&nbsp;</div>
+                    </div>
+                    <div class="alternate-row" event-attendee *ngFor="let attendee of waitlistedAttendees" (onSaved)="updateAttendee($event, true)" (onDeleted)="removeAttendee($event, true)" [attendee]="attendee" [passes]="passes" [editing]="false" [waitlisted]="true" [isJapanese]="isJapanese" [isFormValid]="true" [canceledEditing]="clearForms"></div>
+                    <div class="alternate-row" event-attendee (onAdded)="addAttendee($event, true)" [passes]="passes" [editing]="true" [placeholder]="true" [waitlisted]="true" [isJapanese]="isJapanese" [autoregisterWaitlistItems]="autoregisterWaitlistItems()" [showAutomaticRegistrationCheckbox]="showAutomaticRegistrationCheckbox()" [isFormValid]="true" [canceledEditing]="clearForms"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="registrants-table-container" *ngIf="!showWaitlist() || attendees.length > 0">
+            <span class="registrants-table-header" [appTranslate]="'Attendees'">Attendees</span>
+            <div class="container-fluid registrants-table">
+                <div class="row alternate-row">
+                    <div class="col col-header" *ngIf="isJapanese" [appTranslate]="'LastName'">Last Name</div>
+                    <div class="col col-header" [appTranslate]="'FirstName'">First Name</div>
+                    <div class="col col-header" *ngIf="!isJapanese" [appTranslate]="'LastName'">Last Name</div>
+                    <div class="col col-header" [appTranslate]="'Email'">Email</div>
+                    <div class="col col-header" *ngIf="paidEvent()" [appTranslate]="'Pass'">Pass</div>
+                    <div class="col-1 col-header">&nbsp;</div>
+                </div>
+                <div class="alternate-row" event-attendee *ngFor="let attendee of attendees" (onSaved)="updateAttendee($event, false)" (onDeleted)="removeAttendee($event, false)" (onEditing)="loadResponsesToFields($event)" [attendee]="attendee" [passes]="passes" [editing]="false" [waitlisted]="false" [isJapanese]="isJapanese" [isFormValid]="customRegistrationFieldsForm.valid" [canceledEditing]="clearForms"></div>
+                <div class="alternate-row" event-attendee (onAdded)="addAttendee($event, false)" [passes]="passes" [editing]="true" [placeholder]="true" [waitlisted]="false" *ngIf="!showWaitlist()" [isJapanese]="isJapanese" [autoregisterWaitlistItems]="autoregisterWaitlistItems()" [showAutomaticRegistrationCheckbox]="showAutomaticRegistrationCheckbox()" [isFormValid]="customRegistrationFieldsForm.valid" [canceledEditing]="clearForms"></div>
+            </div>
+        </div>
+
+        <form #customRegistrationFieldsForm="ngForm" novalidate>
+            <div class="event-customregistrationsfields-container" *ngIf="customRegistrationFields && customRegistrationFields.length > 0">
+                <div class="customregistrationsfields-container" *ngFor="let customRegistrationField of customRegistrationFields">
+                    <div class="field-container" *ngIf="customRegistrationField.type == 100000000">
+                        <div class="form-group">
+                            <label [class]="customRegistrationField.isRequired ? 'required' : ''" [for]="customRegistrationField.customRegistrationFieldId">{{ customRegistrationField.text }}</label>
+                            <input type="text" class="form-control" [placeholder]="customRegistrationField.text" [ngModel]="customRegistrationField.value" [name]="customRegistrationField.customRegistrationFieldId" [id]="customRegistrationField.customRegistrationFieldId" [required]="customRegistrationField.isRequired">
+                        </div>
+                    </div>
+                    <div class="field-container" *ngIf="customRegistrationField.type == 100000001">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" [name]="customRegistrationField.customRegistrationFieldId" [id]="customRegistrationField.customRegistrationFieldId">
+                            <label class="form-check-label" [for]="customRegistrationField.customRegistrationFieldId">{{ customRegistrationField.text }}</label>
+                        </div>
+                    </div>
+                    <div class="field-container" *ngIf="customRegistrationField.type == 100000002">
+                        <p [class]="customRegistrationField.isRequired ? 'required' : ''">{{ customRegistrationField.text }}</p>
+                        <div class="checkboxes-container form-group">
+                            <div class="form-check container" *ngFor="let option of getOptions(customRegistrationField.choices); let i = index;">
+                                <input type="checkbox" class="form-check-input" (click)="calculateMultipleCheckboxes()" [name]="customRegistrationField.customRegistrationFieldId + '-' + i" [id]="customRegistrationField.customRegistrationFieldId + '-' + i">
+                                <label class="form-check-label" [for]="customRegistrationField.customRegistrationFieldId + '-' + i">{{ option }}</label>
+                            </div>
+                            <input type="text" [style.visibility]="'hidden'" class="form-control" [placeholder]="customRegistrationField.text" [ngModel]="customRegistrationField.value" [name]="customRegistrationField.customRegistrationFieldId" [id]="customRegistrationField.customRegistrationFieldId" [required]="customRegistrationField.isRequired">
+                        </div>
+                    </div>
+                    <div class="field-container" *ngIf="customRegistrationField.type == 100000003">
+                        <div class="form-group">
+                            <label [class]="customRegistrationField.isRequired ? 'required' : ''" [for]="customRegistrationField.customRegistrationFieldId">{{ customRegistrationField.text }}</label>
+                            <select class="form-control" [name]="customRegistrationField.customRegistrationFieldId" [id]="customRegistrationField.customRegistrationFieldId" [required]="customRegistrationField.isRequired">
+                                <option *ngIf="!customRegistrationField.isRequired"></option>
+                                <option *ngFor="let option of getOptions(customRegistrationField.choices)">{{ option }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <app-captcha *ngIf="showCaptcha"></app-captcha>
+
+        <div class="checkout-container">
+            <button class="btn btn-primary" (click)="checkout()" [attr.disabled]="checkoutButtonDisabled() ? '' : null">
+                <span *ngIf="!registrationInProgress" [appTranslate]="'Checkout'"><span class="fa fa-shopping-cart"></span> Checkout</span>
+                <span *ngIf="registrationInProgress" [appTranslate]="'Processing'"><span class="fa fa-spinner fa-spin"></span> Processing</span>
+            </button>
+        </div>
+    </div>
+</div>

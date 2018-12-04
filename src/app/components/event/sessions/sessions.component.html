@@ -1,0 +1,67 @@
+<div class="spinner-container" *ngIf="!sessions">
+    <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="sessions">
+    <div class="container">
+        <div class="page-header">
+            <h3 [appTranslate]="'Sessions'">Sessions</h3>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="errorMessage">
+        <app-errormessage [translatedErrorMessage]="'RegistrationFailed'" [serverErrorMessage]="errorMessage"></app-errormessage>
+    </div>
+
+    <p *ngIf="sessions.length == 0" [appTranslate]="'NoSessionsEvent'">No sessions are associated to this event.</p>
+
+    <div class="container" *ngIf="sessions.length > 0">
+        <div class="filters">
+            <div class="select-date">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" *ngFor="let dateKey of dateKeys">
+                        <a (click)="selectDate(dateKey)" class="nav-link {{ dateKey === selectedDateKey ? 'active' : '' }} {{ dateToCssClass(dateKey) }}" tabindex="0" role="tab">{{ dateText(dateKey) | async }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <div class="container" *ngIf="sessions && sessions.length > 0">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th [appTranslate]="'Name'">Name</th>
+                        <th [appTranslate]="'StartTime'">Start Time</th>
+                        <th [appTranslate]="'EndTime'">End Time</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-template ngFor let-i="index" let-session [ngForOf]="currentDaySessions()">
+                        <tr [className]="session.detailedDescription != null && session.detailedDescription != '' ? 'active-row' : ''" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="true" [attr.aria-controls]="'collapse' + i">
+                            <td>
+                                {{ session.name }}
+                            </td>
+                            <td>
+                                {{ session.startTime | date:'medium' }}
+                            </td>
+                            <td>
+                                {{ session.endTime | date:'medium' }}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-info" (click)="registerToSession(session.id)" [appTranslate]="'Register'" *ngIf="session.userEligibleToRegister" [disabled]="session.alreadyRegistered">Register</button>
+                            </td>
+                        </tr>
+                        <tr [attr.id]="'collapse' + i" class="collapse" [attr.aria-labelledby]="'heading' + i" data-parent="#accordion" *ngIf="session.detailedDescription != null && session.detailedDescription != ''">
+                            <td colspan="4" class="details-row active-row">
+                                <div>
+                                        {{ session.detailedDescription }}
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

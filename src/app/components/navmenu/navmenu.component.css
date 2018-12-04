@@ -1,0 +1,18 @@
+nav {
+    z-index: 1;
+}
+
+.navbar {
+    border-radius: 0px;
+    border-width: 0px;
+    background-color: #090909;
+}
+
+.navbar-static-top{
+    margin-bottom: 0px !important;
+}
+
+#navbarCollapse {
+    padding-left: 10px;
+    border-left: 2px solid #fdfdfd;
+}

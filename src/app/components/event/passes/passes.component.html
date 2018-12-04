@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="page-header">
+        <h3 [appTranslate]="'PassInformation'">Pass Information</h3>
+    </div>
+</div>
+
+<p *ngIf="passes && passes.length == 0" [appTranslate]="'NoPassesEvent'">No passes are associated to this event.</p>
+
+<div class="container" *ngIf="passes && passes.length > 0">
+    <table class="table table-striped table-hover table-light">
+        <thead class="thead-light">
+        <tr>
+            <th [appTranslate]="'Name'">Name</th>
+            <th [appTranslate]="'PassPrice'">Pass Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let pass of passes">
+            <td>
+                {{ pass.passName }} <b *ngIf="pass.numberOfPassesLeft <= 0">(</b><b *ngIf="pass.numberOfPassesLeft <= 0" [appTranslate]="'SoldOut'">Sold Out</b><b *ngIf="pass.numberOfPassesLeft <= 0">)</b>
+            </td>
+            <td>
+                {{ pass.currencySymbol }}{{ pass.price }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

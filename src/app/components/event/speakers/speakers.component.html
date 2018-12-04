@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="page-header">
+        <h3 [appTranslate]="'Speakers'">Speakers</h3>
+    </div>
+</div>
+
+<p *ngIf="speakers && speakers.length == 0" [appTranslate]="'NoSpeakersEvent'">No speakers are associated to this event.</p>
+
+<div class="container speaker-details" *ngIf="speaker">
+    <div>
+        <div class="speaker-image">
+            <img src="{{ imageHelper.getImage(speaker.image, defaultImageUrl) }}" />
+        </div>
+        <div class="speaker-name">
+            {{ speaker.name }}
+        </div>
+        <div class="speaker-title">
+            {{ speaker.title }}
+        </div>      
+        <div class="speaker-links">
+            <div class="speaker-linkedin" *ngIf="speaker.linkedin">
+                <a aria-label="View LinkedIn Profile" href="{{ speaker.linkedin }}" target="blank" class="x-hidden-focus">
+                    <picture>
+                        <source type="image/svg+xml" srcset="https://news.microsoft.com/wp-content/themes/microsoft-news-center-2016/images/components/social/linkedin-gray.svg">
+                        <img src="https://news.microsoft.com/wp-content/themes/microsoft-news-center-2016/images/components/social/linkedin-gray.png">
+                    </picture>
+                </a>
+            </div>
+            <div class="speaker-twitter" *ngIf="speaker.twitter">                
+                <a href="{{ speaker.twitter }}" target="blank" class="x-hidden-focus">
+                    <picture>
+                        <source type="image/svg+xml" srcset="https://news.microsoft.com/wp-content/themes/microsoft-news-center-2016/images/components/social/twitter-gray.svg">
+                        <img src="https://news.microsoft.com/wp-content/themes/microsoft-news-center-2016/images/components/social/twitter-gray.png">
+                    </picture>
+                </a>
+            </div>
+            <div class="speaker-website" *ngIf="speaker.website">
+                <span [appTranslate]="'WebsiteColon'">Website:</span><br>
+                <a href="{{ speaker.website }}"  target="blank" class="x-hidden-focus">{{ speaker.website }}</a>
+            </div>
+            <div class="speaker-blog" *ngIf="speaker.blog">
+                <span [appTranslate]="'BlogColon'">Blog:</span><br>
+                <a href="{{ speaker.blog }}"  target="blank" class="x-hidden-focus">{{ speaker.blog }}</a>
+            </div>
+        </div><br>
+        <div class="speaker-about">
+            {{ speaker.about }}
+        </div>
+    </div>
+</div>
+
+<div class="container event-speakers-container" *ngIf="speakers && speakers.length > 0">
+    <div class="row speaker">
+        <div id="{{ speaker.id }}" class="col-md-2 col-sm-2 container" *ngFor="let speaker of speakers">
+            <div class="speaker-container">
+                <div class="speaker-image" (click)="showSpeakerDetails(speaker)">
+                    <img src="{{ imageHelper.getImage(speaker.image, defaultImageUrl) }}" />
+                </div>
+                <div class="speaker-name">
+                    {{ speaker.name }}
+                </div>
+                <div class="speaker-title">
+                    {{ speaker.title }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<form #attendeeForm="ngForm" (ngSubmit)="confirmEdit(attendeeForm)" novalidate>
+    <div class="row">
+        <div class="col tablecol" *ngIf="isJapanese">
+            <input type="text" required class="form-control input-sm" name="lastName" placeholder="{{ labelsService.translateLabel('LastName', 'Last Name') | async }}" [ngModel]="attendee.lastName" *ngIf="editing" />
+            <span *ngIf="!editing">{{ attendee.lastName }}</span>
+        </div>
+        <div class="col tablecol">
+            <input #firstName type="text" required class="form-control input-sm" name="firstName" placeholder="{{ labelsService.translateLabel('FirstName', 'First Name') | async }}" [ngModel]="attendee.firstName" *ngIf="editing" />
+            <span *ngIf="!editing">{{ attendee.firstName }}</span>
+        </div>
+        <div class="col tablecol" *ngIf="!isJapanese">
+            <input type="text" required class="form-control input-sm" name="lastName" placeholder="{{ labelsService.translateLabel('LastName', 'Last Name') | async }}" [ngModel]="attendee.lastName" *ngIf="editing" />
+            <span *ngIf="!editing">{{ attendee.lastName }}</span>
+        </div>
+        <div class="col tablecol">
+            <input type="email" required email class="form-control input-sm" name="email" placeholder="{{ labelsService.translateLabel('EmailAddress', 'Email address') | async }}" [ngModel]="attendee.email" *ngIf="editing" />
+            <span *ngIf="!editing">{{ attendee.email }}</span>
+        </div>
+        <div class="col tablecol" *ngIf="passes && passes.length > 0 && !waitlisted">
+            <select name="passId" required class="form-control" [ngModel]="attendee.passId" *ngIf="editing">
+                <option disabled value="" [appTranslate]="'SelectAPass'">Select a pass</option>
+                <option *ngFor="let pass of passes" [value]="pass.passId" [attr.disabled]="pass.numberOfPassesLeft > pass.passesUsed || waitlisted ? null : ''">
+                    {{ pass.passName + ' (' + pass.currencySymbol + pass.price + ')' }}
+                    <div *ngIf="pass.numberOfPassesLeft == 0"> - <span [appTranslate]="'SoldOut'">Sold out</span></div>
+                </option>
+            </select>
+            <span *ngIf="!editing">{{ passDisplayString(attendee.passId) }}</span>
+        </div>
+        <div class="col-1 tablecol auto-register" *ngIf="canAutoRegister()">
+            <label class="switch {{ !editing ? 'disabled-switch' : '' }}">
+                <input type="checkbox" [ngModel]="attendee.autoRegister" name="autoRegister" [attr.disabled]="!editing ? '' : null" />
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div class="col-1 tablecol controls-cell" *ngIf="editing">
+            &nbsp;
+            <button type="submit" class="control-btn submit-btn addAttendee" [disabled]="!(attendeeForm.valid && isFormValid)" title="{{ placeholder ? (labelsService.translateLabel('AddAttendee', 'Add attendee') | async) : (labelsService.translateLabel('SaveChanges', 'Save changes') | async) }}"><span class="fa {{ placeholder ? 'fa-plus' : 'fa-check' }}"></span></button>
+            <button class="control-btn" (click)="cancelEdit()" *ngIf="!placeholder" title="{{ labelsService.translateLabel('DiscardChanges', 'Discard changes') | async }}"><span class="fa fa-remove"></span></button>
+        </div>
+        <div class="col-1 tablecol controls-cell" *ngIf="!editing">
+            <button class="control-btn" (click)="switchToEdit(attendee)" title="{{ labelsService.translateLabel('EditAttendee', 'Edit attendee') | async }}"><span class="fa fa-edit"></span></button>
+            <button class="control-btn" (click)="removeAttendee()" *ngIf="!placeholder" title="{{ labelsService.translateLabel('RemoveAttendee', 'Remove attendee') | async }}"><span class="fa fa-trash icon-padding"></span></button>
+        </div>
+    </div>
+</form>

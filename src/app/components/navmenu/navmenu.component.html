@@ -1,0 +1,58 @@
+<nav class='navbar navbar-expand-sm navbar-dark fixed-top'>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggler" data-target="navbarCollapse" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" [routerLink]="['/']" [appTranslate]="'Home'">Home</a>
+        </div>
+        <div class='navbar-collapse collapse' id='navbarCollapse'>
+            <ul class='navbar-nav mr-auto' *ngIf="currentEvent">
+                <li class='nav-item' [routerLinkActive]="['link-active']">
+                    <a class="navbar-brand" [routerLink]="['/event']" [queryParams]="{id: currentEvent.readableEventId}">
+                        {{ currentEvent.eventName }}
+                    </a>
+                </li>
+            </ul>
+            <ul class='navbar-nav ml-auto' *ngIf="showUserMenu">
+                <li class='nav-item' [routerLinkActive]="['link-active']" *ngIf="user.isAnonymous">
+                    <a class="nav-link text-white" [routerLink]="['/externalLogin']" *ngIf="!currentEvent">
+                        <span [appTranslate]="'SignIn'">Sign In</span>
+                    </a>
+                    <a class="nav-link text-white" [routerLink]="['/externalLogin']" *ngIf="currentEvent" [queryParams]="{id: currentEvent.readableEventId}">
+                        <span [appTranslate]="'SignIn'">Sign In</span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown" *ngIf="!user.isAnonymous">
+                    <a class="navbar-brand dropdown-toggle" data-toggle="dropdown" href="#">{{user.fullName}}
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class='nav-item' [routerLinkActive]="['link-active']">
+                            <a class="dropdown-item" [routerLink]="['/myregistrations']">
+                                <span [appTranslate]="'MyRegistrations'">My registrations</span>
+                            </a>
+                        </li>
+                        <li class='nav-item' [routerLinkActive]="['link-active']">
+                            <a class="dropdown-item" [routerLink]="['/externalProfile']" *ngIf="!currentEvent">
+                                <span [appTranslate]="'Profile'">Profile</span>
+                            </a>
+                            <a class="dropdown-item" [routerLink]="['/externalProfile']" *ngIf="currentEvent" [queryParams]="{id: currentEvent.readableEventId}">
+                                <span [appTranslate]="'Profile'">Profile</span>
+                            </a>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li class='nav-item' [routerLinkActive]="['link-active']">
+                            <a class="dropdown-item" [routerLink]="['/externalLogout']" *ngIf="!currentEvent">
+                                <span [appTranslate]="'SignOut'">Sign Out</span>
+                            </a>
+                            <a class="dropdown-item" [routerLink]="['/externalLogout']"  *ngIf="currentEvent" [queryParams]="{id: currentEvent.readableEventId}">
+                                <span [appTranslate]="'SignOut'">Sign Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                  </li>
+            </ul>
+        </div>
+    </div>
+</nav>
