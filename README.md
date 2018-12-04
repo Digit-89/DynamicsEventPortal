@@ -1,3 +1,7 @@
+# Introduction
+
+This project is a modified version of the Dynamics 365 EventManagementApp to fit personal needs.
+
 # ClientApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.2.
