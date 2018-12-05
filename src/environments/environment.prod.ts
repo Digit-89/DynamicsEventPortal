@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  baseUrl: '/',
+  baseUrl: 'https://angularportal.microsoftcrmportals.com/',
 
   externalBaseUrl: '/',
 
@@ -9,7 +9,7 @@ export const environment = {
 
   areUsersSupported: true,
 
-  useCaptcha: true,
+  useCaptcha: false,
 
   usePortalCsrfToken: true,
 
