@@ -35,7 +35,7 @@
 
         <div class="col-1 tablecol controls-cell" *ngIf="editing">
             &nbsp;
-            <button type="submit" class="control-btn submit-btn addAttendee" [disabled]="!(attendeeForm.valid && isFormValid)" title="{{ placeholder ? (labelsService.translateLabel('AddAttendee', 'Add attendee') | async) : (labelsService.translateLabel('SaveChanges', 'Save changes') | async) }}"><span class="fa {{ placeholder ? 'fa-plus' : 'fa-check' }}"></span></button>
+            <button type="submit" class="control-btn submit-btn addAttendee" [disabled]="!(attendeeForm.valid && isFormValid)" title="{{ placeholder ? (labelsService.translateLabel('AddAttendee', 'Add attendee') | async) : (labelsService.translateLabel('SaveChanges', 'Save changes') | async) }}"><span class="fa {{ placeholder ? 'fa-plus' : 'fa-check' }}"> Add</span></button>
             <button class="control-btn" (click)="cancelEdit()" *ngIf="!placeholder" title="{{ labelsService.translateLabel('DiscardChanges', 'Discard changes') | async }}"><span class="fa fa-remove"></span></button>
         </div>
         <div class="col-1 tablecol controls-cell" *ngIf="!editing">
